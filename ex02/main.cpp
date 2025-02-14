@@ -3,8 +3,9 @@
 #include "B.hpp"
 #include "C.hpp"
 
-int main() {
-    Base* basePtr = generate();  // Crée un objet aléatoire
+int main() 
+{
+    Base* basePtr = NULL;  // Crée un objet aléatoire
     std::cout << "Using pointer:" << std::endl;
     identify(basePtr);  // Identifie via pointeur
 

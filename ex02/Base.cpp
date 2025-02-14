@@ -23,10 +23,16 @@ Base* generate(void)
         std::cout << "C created" << std::endl;
         return new C;  // Crée une instance de C
     }
+    return NULL;
 }
 
 void identify(Base* p) 
 {
+    if(!p) 
+    {
+        std::cout << "Unknown type" << std::endl;
+        return;
+    }
     if (dynamic_cast<A*>(p)) 
     {
         std::cout << "Type : A" << std::endl;
@@ -39,36 +45,29 @@ void identify(Base* p)
     {
         std::cout << "Type : C" << std::endl;
     }
+    else 
+    {
+        std::cout << "Unknown type" << std::endl;
+    }
 }
 
 void identify(Base& p) 
 {
-    try 
-    {
-        A& a = dynamic_cast<A&>(p);
-        (void)a;  // Ignore la variable si non utilisée
-        std::cout << "Type : A" << std::endl;
+   try
+	{
+		if (dynamic_cast<A *>(&p))
+			std::cout << "Type : A" << std::endl;
+		else if (dynamic_cast<B *>(&p))
+			std::cout << "Type : B" << std::endl;
+		else if (dynamic_cast<C *>(&p))
+			std::cout << "Type : C" << std::endl;
+		else
+			throw std::exception();
+		;
+	}
+	catch (const std::exception &e)
+	{
+		std::cerr << "Type : undefined" << '\n';
+	}
     }
-    catch (std::bad_cast&) 
-    {
-        try 
-        {
-            B& b = dynamic_cast<B&>(p);
-            (void)b;  // Ignore la variable si non utilisée
-            std::cout << "Type : B" << std::endl;
-        }
-        catch (std::bad_cast&) 
-        {
-            try 
-            {
-                C& c = dynamic_cast<C&>(p);
-                (void)c;  // Ignore la variable si non utilisée
-                std::cout << "Type : C" << std::endl;
-            }
-            catch (std::bad_cast&) 
-            {
-                std::cout << "Unknown type" << std::endl;
-            }
-        }
-    }
-}
+
